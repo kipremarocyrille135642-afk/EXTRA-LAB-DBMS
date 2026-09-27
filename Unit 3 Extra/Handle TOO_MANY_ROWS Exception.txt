@@ -1,0 +1,20 @@
+SET SERVEROUTPUT ON;
+
+DECLARE
+    dept_no NUMBER;
+    emp_name EMP.ENAME%TYPE;
+BEGIN
+    dept_no := &dept_no;
+
+    SELECT ENAME
+    INTO emp_name
+    FROM EMP
+    WHERE DEPTNO = dept_no;
+
+    DBMS_OUTPUT.PUT_LINE('Employee Name: ' || emp_name);
+
+EXCEPTION
+    WHEN TOO_MANY_ROWS THEN
+        DBMS_OUTPUT.PUT_LINE('More than one employee found.');
+END;
+/

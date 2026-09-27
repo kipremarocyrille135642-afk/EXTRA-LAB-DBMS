@@ -1,0 +1,32 @@
+SET SERVEROUTPUT ON;
+
+DECLARE
+    emp_id NUMBER;
+    min_salary NUMBER;
+    emp_salary EMP.SAL%TYPE;
+
+    LOW_SALARY EXCEPTION;
+
+BEGIN
+    emp_id := &emp_id;
+    min_salary := &min_salary;
+
+    SELECT SAL
+    INTO emp_salary
+    FROM EMP
+    WHERE EMPNO = emp_id;
+
+    IF emp_salary < min_salary THEN
+        RAISE LOW_SALARY;
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Employee salary is acceptable.');
+    END IF;
+
+EXCEPTION
+    WHEN LOW_SALARY THEN
+        DBMS_OUTPUT.PUT_LINE('LOW_SALARY: Employee salary is below the specified amount.');
+
+    WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE('Employee does not exist.');
+END;
+/

@@ -1,0 +1,14 @@
+SET SERVEROUTPUT ON;
+
+DECLARE
+    num NUMBER(3);
+BEGIN
+    num := 12345;
+
+    DBMS_OUTPUT.PUT_LINE('Value: ' || num);
+
+EXCEPTION
+    WHEN VALUE_ERROR THEN
+        DBMS_OUTPUT.PUT_LINE('VALUE_ERROR: Inappropriate value assigned.');
+END;
+/

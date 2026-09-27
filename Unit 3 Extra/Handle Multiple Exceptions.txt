@@ -1,0 +1,40 @@
+SET SERVEROUTPUT ON;
+
+DECLARE
+    emp_id NUMBER;
+    emp_name EMP.ENAME%TYPE;
+    a NUMBER;
+    b NUMBER;
+    result NUMBER;
+
+BEGIN
+    emp_id := &emp_id;
+
+    SELECT ENAME
+    INTO emp_name
+    FROM EMP
+    WHERE EMPNO = emp_id;
+
+    DBMS_OUTPUT.PUT_LINE('Employee Name: ' || emp_name);
+
+    a := 10;
+    b := 2;
+
+    result := a / b;
+
+    DBMS_OUTPUT.PUT_LINE('Result = ' || result);
+
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE('NO_DATA_FOUND: Employee does not exist.');
+
+    WHEN TOO_MANY_ROWS THEN
+        DBMS_OUTPUT.PUT_LINE('TOO_MANY_ROWS: More than one record found.');
+
+    WHEN ZERO_DIVIDE THEN
+        DBMS_OUTPUT.PUT_LINE('ZERO_DIVIDE: Cannot divide by zero.');
+
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('OTHERS: An unexpected error occurred.');
+END;
+/

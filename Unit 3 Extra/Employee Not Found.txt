@@ -1,0 +1,22 @@
+SET SERVEROUTPUT ON;
+
+DECLARE
+    emp_id NUMBER;
+    emp_name EMP.ENAME%TYPE;
+    emp_sal EMP.SAL%TYPE;
+BEGIN
+    emp_id := &emp_id;
+
+    SELECT ENAME, SAL
+    INTO emp_name, emp_sal
+    FROM EMP
+    WHERE EMPNO = emp_id;
+
+    DBMS_OUTPUT.PUT_LINE('Employee Name: ' || emp_name);
+    DBMS_OUTPUT.PUT_LINE('Salary: ' || emp_sal);
+
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE('Employee does not exist.');
+END;
+/

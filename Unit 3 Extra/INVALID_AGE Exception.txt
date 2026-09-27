@@ -1,0 +1,30 @@
+SET SERVEROUTPUT ON;
+
+DECLARE
+    emp_id NUMBER;
+    emp_age EMP.AGE%TYPE;
+
+    INVALID_AGE EXCEPTION;
+
+BEGIN
+    emp_id := &emp_id;
+
+    SELECT AGE
+    INTO emp_age
+    FROM EMP
+    WHERE EID = emp_id;
+
+    IF emp_age < 18 OR emp_age > 60 THEN
+        RAISE INVALID_AGE;
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Employee age is valid.');
+    END IF;
+
+EXCEPTION
+    WHEN INVALID_AGE THEN
+        DBMS_OUTPUT.PUT_LINE('INVALID_AGE: Employee age is outside the permitted range.');
+
+    WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE('Employee does not exist.');
+END;
+/

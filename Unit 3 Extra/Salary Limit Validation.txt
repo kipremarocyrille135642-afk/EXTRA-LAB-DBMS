@@ -1,0 +1,28 @@
+SET SERVEROUTPUT ON;
+
+DECLARE
+    emp_id NUMBER;
+    salary_limit NUMBER;
+    emp_salary EMP.SAL%TYPE;
+
+BEGIN
+    emp_id := &emp_id;
+    salary_limit := &salary_limit;
+
+    SELECT SAL
+    INTO emp_salary
+    FROM EMP
+    WHERE EMPNO = emp_id;
+
+    IF emp_salary > salary_limit THEN
+        RAISE_APPLICATION_ERROR(-20001,
+            'Salary exceeds the specified limit.');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Salary is within the limit.');
+    END IF;
+
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE('Employee does not exist.');
+END;
+/

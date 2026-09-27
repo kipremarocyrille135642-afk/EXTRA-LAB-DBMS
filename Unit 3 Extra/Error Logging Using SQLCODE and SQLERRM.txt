@@ -1,0 +1,30 @@
+SET SERVEROUTPUT ON;
+
+CREATE TABLE ERROR_LOG (
+    ERROR_CODE NUMBER,
+    ERROR_MESSAGE VARCHAR2(500)
+);
+
+DECLARE
+    a NUMBER;
+    b NUMBER;
+    result NUMBER;
+BEGIN
+    a := 10;
+    b := 0;
+
+    result := a / b;
+
+    DBMS_OUTPUT.PUT_LINE('Result = ' || result);
+
+EXCEPTION
+    WHEN OTHERS THEN
+        INSERT INTO ERROR_LOG (ERROR_CODE, ERROR_MESSAGE)
+        VALUES (SQLCODE, SQLERRM);
+
+        COMMIT;
+
+        DBMS_OUTPUT.PUT_LINE('Error Code: ' || SQLCODE);
+        DBMS_OUTPUT.PUT_LINE('Error Message: ' || SQLERRM);
+END;
+/

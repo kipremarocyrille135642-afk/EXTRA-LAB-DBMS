@@ -1,0 +1,19 @@
+SET SERVEROUTPUT ON;
+
+DECLARE
+    a NUMBER;
+    b NUMBER;
+    result NUMBER;
+BEGIN
+    a := 10;
+    b := 0;
+
+    result := a / b;
+
+    DBMS_OUTPUT.PUT_LINE('Result = ' || result);
+
+EXCEPTION
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('An unexpected error occurred.');
+END;
+/
