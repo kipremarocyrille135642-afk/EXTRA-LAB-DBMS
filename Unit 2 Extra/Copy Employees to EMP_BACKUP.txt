@@ -1,0 +1,38 @@
+SET SERVEROUTPUT ON;
+
+CREATE TABLE EMP_BACKUP AS
+SELECT * FROM EMP WHERE 1 = 0;
+
+DECLARE
+    dept_no NUMBER;
+
+    CURSOR emp_cursor(dno NUMBER) IS
+        SELECT *
+        FROM EMP
+        WHERE DEPTNO = dno;
+
+    v_emp EMP%ROWTYPE;
+BEGIN
+    dept_no := &dept_no;
+
+    OPEN emp_cursor(dept_no);
+
+    LOOP
+        FETCH emp_cursor INTO v_emp;
+        EXIT WHEN emp_cursor%NOTFOUND;
+
+        INSERT INTO EMP_BACKUP
+        VALUES v_emp;
+
+        DBMS_OUTPUT.PUT_LINE(
+            'Employee ' || v_emp.ENAME || ' copied to EMP_BACKUP'
+        );
+    END LOOP;
+
+    CLOSE emp_cursor;
+
+    COMMIT;
+
+    DBMS_OUTPUT.PUT_LINE('Employees copied successfully.');
+END;
+/

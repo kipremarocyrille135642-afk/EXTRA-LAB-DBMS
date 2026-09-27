@@ -1,0 +1,36 @@
+SET SERVEROUTPUT ON;
+
+DECLARE
+    CURSOR emp_cursor IS
+        SELECT ENAME, BASICSAL
+        FROM EMP;
+
+    v_name EMP.ENAME%TYPE;
+    v_basic EMP.BASICSAL%TYPE;
+    v_hra NUMBER;
+    v_da NUMBER;
+    v_medical NUMBER;
+    v_gross NUMBER;
+BEGIN
+    OPEN emp_cursor;
+
+    LOOP
+        FETCH emp_cursor INTO v_name, v_basic;
+        EXIT WHEN emp_cursor%NOTFOUND;
+
+        v_hra := v_basic * 15 / 100;
+        v_da := v_basic * 50 / 100;
+        v_medical := 500;
+
+        v_gross := v_basic + v_hra + v_da + v_medical;
+
+        DBMS_OUTPUT.PUT_LINE(
+            'Employee: ' || v_name ||
+            '  Basic Salary: ' || v_basic ||
+            '  Gross Salary: ' || v_gross
+        );
+    END LOOP;
+
+    CLOSE emp_cursor;
+END;
+/

@@ -1,0 +1,28 @@
+SET SERVEROUTPUT ON;
+
+DECLARE
+    dept_no NUMBER;
+
+    CURSOR emp_cursor(dno NUMBER) IS
+        SELECT ENAME, SAL
+        FROM EMP
+        WHERE DEPTNO = dno;
+
+    v_name EMP.ENAME%TYPE;
+    v_sal EMP.SAL%TYPE;
+BEGIN
+    dept_no := &dept_no;
+
+    OPEN emp_cursor(dept_no);
+
+    LOOP
+        FETCH emp_cursor INTO v_name, v_sal;
+        EXIT WHEN emp_cursor%NOTFOUND;
+
+        DBMS_OUTPUT.PUT_LINE('Employee Name: ' || v_name ||
+                             '  Salary: ' || v_sal);
+    END LOOP;
+
+    CLOSE emp_cursor;
+END;
+/

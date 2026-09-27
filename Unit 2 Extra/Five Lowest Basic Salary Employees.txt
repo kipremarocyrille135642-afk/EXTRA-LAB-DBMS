@@ -1,0 +1,29 @@
+SET SERVEROUTPUT ON;
+
+DECLARE
+    CURSOR emp_cursor IS
+        SELECT ENAME, BASICSAL
+        FROM EMP
+        ORDER BY BASICSAL ASC;
+
+    v_name EMP.ENAME%TYPE;
+    v_sal EMP.BASICSAL%TYPE;
+    count_emp NUMBER := 0;
+BEGIN
+    OPEN emp_cursor;
+
+    LOOP
+        FETCH emp_cursor INTO v_name, v_sal;
+        EXIT WHEN emp_cursor%NOTFOUND OR count_emp = 5;
+
+        count_emp := count_emp + 1;
+
+        DBMS_OUTPUT.PUT_LINE(
+            'Employee Name: ' || v_name ||
+            '  Basic Salary: ' || v_sal
+        );
+    END LOOP;
+
+    CLOSE emp_cursor;
+END;
+/

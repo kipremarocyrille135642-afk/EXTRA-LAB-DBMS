@@ -1,0 +1,34 @@
+SET SERVEROUTPUT ON;
+
+DECLARE
+    dept_no NUMBER;
+
+    CURSOR emp_cursor(dno NUMBER) IS
+        SELECT EMPNO, SAL
+        FROM EMP
+        WHERE DEPTNO = dno;
+
+    v_empno EMP.EMPNO%TYPE;
+    v_sal EMP.SAL%TYPE;
+BEGIN
+    dept_no := &dept_no;
+
+    OPEN emp_cursor(dept_no);
+
+    LOOP
+        FETCH emp_cursor INTO v_empno, v_sal;
+        EXIT WHEN emp_cursor%NOTFOUND;
+
+        UPDATE EMP
+        SET SAL = SAL * 1.10
+        WHERE EMPNO = v_empno;
+
+        DBMS_OUTPUT.PUT_LINE('Employee ' || v_empno ||
+                             ' salary increased by 10%');
+    END LOOP;
+
+    CLOSE emp_cursor;
+
+    COMMIT;
+END;
+/

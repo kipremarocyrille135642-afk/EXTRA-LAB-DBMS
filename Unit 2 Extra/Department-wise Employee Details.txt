@@ -1,0 +1,47 @@
+SET SERVEROUTPUT ON;
+
+DECLARE
+    CURSOR dept_cursor IS
+        SELECT DISTINCT DEPTNO
+        FROM EMP
+        ORDER BY DEPTNO;
+
+    CURSOR emp_cursor(dno NUMBER) IS
+        SELECT ENAME, SAL
+        FROM EMP
+        WHERE DEPTNO = dno;
+
+    v_name EMP.ENAME%TYPE;
+    v_sal EMP.SAL%TYPE;
+    v_count NUMBER;
+BEGIN
+    FOR dept IN dept_cursor LOOP
+
+        v_count := 0;
+
+        DBMS_OUTPUT.PUT_LINE('Department: ' || dept.DEPTNO);
+
+        OPEN emp_cursor(dept.DEPTNO);
+
+        LOOP
+            FETCH emp_cursor INTO v_name, v_sal;
+            EXIT WHEN emp_cursor%NOTFOUND;
+
+            v_count := v_count + 1;
+
+            DBMS_OUTPUT.PUT_LINE(
+                'Employee: ' || v_name || '  Salary: ' || v_sal
+            );
+        END LOOP;
+
+        CLOSE emp_cursor;
+
+        DBMS_OUTPUT.PUT_LINE(
+            'Number of Employees: ' || v_count
+        );
+
+        DBMS_OUTPUT.PUT_LINE('---------------------------');
+
+    END LOOP;
+END;
+/
