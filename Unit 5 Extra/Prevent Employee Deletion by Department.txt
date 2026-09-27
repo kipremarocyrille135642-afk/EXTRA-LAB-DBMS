@@ -1,0 +1,19 @@
+SET SERVEROUTPUT ON;
+
+CREATE OR REPLACE TRIGGER prevent_employee_delete
+BEFORE DELETE ON EMP
+FOR EACH ROW
+BEGIN
+    IF :OLD.DEPTNO = 10 THEN
+        RAISE_APPLICATION_ERROR(
+            -20003,
+            'Employees from Department 10 cannot be deleted.'
+        );
+    END IF;
+END;
+/
+
+DELETE FROM EMP
+WHERE EMPNO = 7369;
+
+COMMIT;
