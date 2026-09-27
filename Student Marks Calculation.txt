@@ -1,0 +1,39 @@
+SET SERVEROUTPUT ON;
+
+CREATE TABLE STUDENT (
+    SID NUMBER PRIMARY KEY,
+    SNAME VARCHAR2(50),
+    MARK1 NUMBER,
+    MARK2 NUMBER,
+    MARK3 NUMBER
+);
+
+INSERT INTO STUDENT VALUES (1, 'Rahul', 80, 75, 90);
+INSERT INTO STUDENT VALUES (2, 'Amit', 70, 85, 80);
+INSERT INTO STUDENT VALUES (3, 'Priya', 90, 95, 85);
+
+COMMIT;
+
+DECLARE
+    id NUMBER;
+    m1 NUMBER;
+    m2 NUMBER;
+    m3 NUMBER;
+    total NUMBER;
+    percentage NUMBER;
+BEGIN
+    id := &id;
+
+    SELECT MARK1, MARK2, MARK3
+    INTO m1, m2, m3
+    FROM STUDENT
+    WHERE SID = id;
+
+    total := m1 + m2 + m3;
+    percentage := total / 3;
+
+    DBMS_OUTPUT.PUT_LINE('Student ID = ' || id);
+    DBMS_OUTPUT.PUT_LINE('Total Marks = ' || total);
+    DBMS_OUTPUT.PUT_LINE('Percentage = ' || percentage || '%');
+END;
+/

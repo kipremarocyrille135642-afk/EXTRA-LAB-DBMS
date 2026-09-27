@@ -1,0 +1,15 @@
+SET SERVEROUTPUT ON;
+
+DECLARE
+    n NUMBER;
+    sum NUMBER := 0;
+BEGIN
+    n := &n;
+
+    FOR i IN 1..n LOOP
+        sum := sum + i;
+    END LOOP;
+
+    DBMS_OUTPUT.PUT_LINE('Sum of first ' || n || ' natural numbers = ' || sum);
+END;
+/
