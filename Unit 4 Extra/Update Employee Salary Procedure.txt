@@ -1,0 +1,21 @@
+SET SERVEROUTPUT ON;
+
+CREATE OR REPLACE PROCEDURE update_salary(
+    p_emp_id IN NUMBER,
+    p_percent IN NUMBER
+)
+IS
+BEGIN
+    UPDATE EMP
+    SET SAL = SAL + (SAL * p_percent / 100)
+    WHERE EMPNO = p_emp_id;
+
+    IF SQL%ROWCOUNT = 0 THEN
+        DBMS_OUTPUT.PUT_LINE('Employee does not exist.');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Salary updated successfully.');
+    END IF;
+
+    COMMIT;
+END;
+/

@@ -1,0 +1,32 @@
+SET SERVEROUTPUT ON;
+
+CREATE OR REPLACE FUNCTION get_grade(
+    p_percentage IN NUMBER
+)
+RETURN CHAR
+IS
+BEGIN
+    IF p_percentage >= 90 THEN
+        RETURN 'A';
+    ELSIF p_percentage >= 80 THEN
+        RETURN 'B';
+    ELSIF p_percentage >= 70 THEN
+        RETURN 'C';
+    ELSIF p_percentage >= 60 THEN
+        RETURN 'D';
+    ELSE
+        RETURN 'F';
+    END IF;
+END;
+/
+
+DECLARE
+    v_percentage NUMBER := &v_percentage;
+    v_grade CHAR(1);
+BEGIN
+    v_grade := get_grade(v_percentage);
+
+    DBMS_OUTPUT.PUT_LINE('Percentage = ' || v_percentage || '%');
+    DBMS_OUTPUT.PUT_LINE('Grade = ' || v_grade);
+END;
+/

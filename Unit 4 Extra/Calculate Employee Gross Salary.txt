@@ -1,0 +1,33 @@
+SET SERVEROUTPUT ON;
+
+CREATE OR REPLACE FUNCTION gross_salary(
+    p_emp_id IN NUMBER
+)
+RETURN NUMBER
+IS
+    v_basic EMP.BASICSAL%TYPE;
+    v_gross NUMBER;
+BEGIN
+    SELECT BASICSAL
+    INTO v_basic
+    FROM EMP
+    WHERE EID = p_emp_id;
+
+    v_gross := v_basic + (v_basic * 15 / 100)
+                       + (v_basic * 50 / 100)
+                       + 500;
+
+    RETURN v_gross;
+END;
+/
+
+DECLARE
+    v_emp_id NUMBER := &v_emp_id;
+    v_gross NUMBER;
+BEGIN
+    v_gross := gross_salary(v_emp_id);
+
+    DBMS_OUTPUT.PUT_LINE('Employee ID = ' || v_emp_id);
+    DBMS_OUTPUT.PUT_LINE('Gross Salary = ' || v_gross);
+END;
+/

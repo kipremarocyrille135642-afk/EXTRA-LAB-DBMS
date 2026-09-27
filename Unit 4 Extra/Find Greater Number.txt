@@ -1,0 +1,27 @@
+SET SERVEROUTPUT ON;
+
+CREATE OR REPLACE FUNCTION greater_number(
+    p_num1 IN NUMBER,
+    p_num2 IN NUMBER
+)
+RETURN NUMBER
+IS
+BEGIN
+    IF p_num1 > p_num2 THEN
+        RETURN p_num1;
+    ELSE
+        RETURN p_num2;
+    END IF;
+END;
+/
+
+DECLARE
+    v_num1 NUMBER := &v_num1;
+    v_num2 NUMBER := &v_num2;
+    v_greater NUMBER;
+BEGIN
+    v_greater := greater_number(v_num1, v_num2);
+
+    DBMS_OUTPUT.PUT_LINE('Greater Number = ' || v_greater);
+END;
+/

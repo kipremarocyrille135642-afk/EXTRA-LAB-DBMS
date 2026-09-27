@@ -1,0 +1,23 @@
+SET SERVEROUTPUT ON;
+
+CREATE OR REPLACE PROCEDURE display_employee(p_emp_id IN NUMBER)
+IS
+    v_name EMP.ENAME%TYPE;
+    v_deptno EMP.DEPTNO%TYPE;
+    v_sal EMP.SAL%TYPE;
+BEGIN
+    SELECT ENAME, DEPTNO, SAL
+    INTO v_name, v_deptno, v_sal
+    FROM EMP
+    WHERE EMPNO = p_emp_id;
+
+    DBMS_OUTPUT.PUT_LINE('Employee ID: ' || p_emp_id);
+    DBMS_OUTPUT.PUT_LINE('Employee Name: ' || v_name);
+    DBMS_OUTPUT.PUT_LINE('Department: ' || v_deptno);
+    DBMS_OUTPUT.PUT_LINE('Salary: ' || v_sal);
+
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE('Employee does not exist.');
+END;
+/
